@@ -45,4 +45,3 @@ def enviarMail(email: str, archivos: list[str], nombre: str ):
         return {"message": "Error!, correo no enviado por errores de formato", "error": True}
 
 
-enviarMail("bayledog12@gmail.com", ["./info.log"], "Juan Sanhueza")
