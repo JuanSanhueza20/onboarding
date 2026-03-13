@@ -1,7 +1,0 @@
-awscli==2.25.0
-awscrt==0.24.2
-bcrypt==5.0.0
-ldap3==2.9.1
-psycopg2-binary==2.9.11
-python-dotenv==1.2.1
-yagmail==0.15.293
