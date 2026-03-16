@@ -8,7 +8,6 @@ El objetivo es reproducir un entorno empresarial donde los empleados trabajan de
 
 
 ## 🏗️ Arquitectura en AWS
-
 ```mermaid
 flowchart TB
 
@@ -18,7 +17,7 @@ flowchart TB
 
         subgraph PublicA["Public Subnet 10.1.10.0/24"]
             VPN["VPN Bastion - WireGuard"]
-            WEBPUB["Servidor Web Publico"]
+            
         end
 
         subgraph PrivateA["Private Subnet A 10.1.20.0/24"]
@@ -26,7 +25,7 @@ flowchart TB
         end
 
         subgraph PrivateB["Private Subnet B 10.1.30.0/24"]
-            WEBINT["Servidor Web Interno + DB"]
+            PR_SRV["Servidor Interno + DB"]
         end
 
         NAT["NAT Gateway"]
@@ -40,10 +39,10 @@ flowchart TB
 
     Internet --> IGW
     IGW --> VPN
-    IGW --> WEBPUB
+   
 
     VPN --> AD
-    VPN --> WEBINT
+    VPN --> PR_SRV
 
     PrivateA --> NAT
     PrivateB --> NAT
