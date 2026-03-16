@@ -182,8 +182,8 @@ Toda la infraestructura se despliega mediante Terraform:
 terraform init
 terraform plan
 terraform apply
-
-Posibles Mejoras Futuras
+```
+## Posibles Mejoras Futuras
 
 - Always-On VPN
 
