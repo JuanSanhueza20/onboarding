@@ -6,6 +6,50 @@ Este laboratorio implementa una arquitectura corporativa simulada en AWS que per
 
 El objetivo es reproducir un entorno empresarial donde los empleados trabajan de forma remota y deben conectarse a la red corporativa para acceder a servicios internos.
 
+
+## 🏗️ Arquitectura en AWS
+
+```mermaid
+flowchart TB
+
+    Internet((Internet))
+
+    subgraph VPC["VPC 10.1.0.0/16"]
+
+        subgraph PublicA["Public Subnet 10.1.10.0/24"]
+            VPN["VPN Bastion - WireGuard"]
+            WEBPUB["Servidor Web Publico"]
+        end
+
+        subgraph PrivateA["Private Subnet A 10.1.20.0/24"]
+            AD["Controlador de Dominio AD"]
+        end
+
+        subgraph PrivateB["Private Subnet B 10.1.30.0/24"]
+            WEBINT["Servidor Web Interno + DB"]
+        end
+
+        NAT["NAT Gateway"]
+        IGW["Internet Gateway"]
+
+    end
+
+    Client["Usuario Remoto VPN"]
+
+    Client -->|WireGuard VPN| VPN
+
+    Internet --> IGW
+    IGW --> VPN
+    IGW --> WEBPUB
+
+    VPN --> AD
+    VPN --> WEBINT
+
+    PrivateA --> NAT
+    PrivateB --> NAT
+    NAT --> IGW
+```
+
 ---
 
 ## 🧠 Arquitectura General
@@ -19,54 +63,6 @@ La infraestructura se despliega en una VPC privada utilizando Terraform e incluy
 - NAT Gateway para acceso saliente seguro
 
 ---
-
-## 🏗️ Arquitectura en AWS
-
-```mermaid
-flowchart TB
-
-    Internet((Internet))
-
-    subgraph VPC["VPC 10.1.0.0/16"]
-
-        subgraph PublicA["Public Subnet (10.1.10.0/24)"]
-            VPN["VPN Bastion<br/>WireGuard"]
-            WEBPUB["Servidor Web Público"]
-        end
-
-        subgraph PrivateA["Private Subnet A (10.1.20.0/24)"]
-            AD["Controlador de Dominio<br/>Active Directory"]
-        end
-
-        subgraph PrivateB["Private Subnet B (10.1.30.0/24)"]
-            WEBINT["Servidor Web Interno<br/>+ Base de Datos"]
-        end
-
-        NAT["NAT Gateway"]
-        IGW["Internet Gateway"]
-
-    end
-
-    Client["Usuario Remoto<br/>Cliente VPN"]
-
-    Client -->|VPN WireGuard<br/>192.168.50.0/24| VPN
-
-    Internet --> IGW
-    IGW --> VPN
-    IGW --> WEBPUB
-
-    VPN --> AD
-    VPN --> WEBINT
-
-    PrivateA --> NAT
-    PrivateB --> NAT
-    NAT --> IGW
-- VPC CIDR: `10.1.0.0/16`
-- Red VPN: `10.10.10.0/24`
-
----
-
-## 🔐 Componentes Principales
 
 ### 🧩 Active Directory (AD)
 
